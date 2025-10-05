@@ -1,4 +1,3 @@
-import ChatInterface from "@/components/ChatInterface";
 import { Building2 } from "lucide-react";
 
 const Index = () => {
@@ -8,8 +7,8 @@ const Index = () => {
         {/* Header */}
         <header className="text-center mb-12 animate-fade-in">
           <div className="inline-flex items-center justify-center gap-3 mb-4">
-            <div className="p-3 bg-[var(--gradient-primary)] rounded-xl shadow-[var(--shadow-card)]">
-              <Building2 className="w-8 h-8 text-white" />
+            <div className="p-3 bg-primary rounded-xl shadow-md">
+              <Building2 className="w-8 h-8 text-primary-foreground" />
             </div>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-3">
@@ -19,11 +18,6 @@ const Index = () => {
             AI-powered feasibility and site selection analysis for urban development projects
           </p>
         </header>
-
-        {/* Main Content */}
-        <main>
-          <ChatInterface />
-        </main>
 
         {/* Footer */}
         <footer className="text-center mt-16 text-sm text-muted-foreground">
