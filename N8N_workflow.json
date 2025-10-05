@@ -1,0 +1,315 @@
+{
+  "name": "Nasa_working",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "mode": "=hostedChat",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -1168,
+        16
+      ],
+      "id": "7b8e242d-ff30-4838-aea0-21c281d6ef83",
+      "name": "When chat message received",
+      "webhookId": "87b1e908-826b-4b9e-a9cb-422d1e2d78b3"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://13.247.214.188:8000/query",
+        "sendHeaders": true,
+        "specifyHeaders": "json",
+        "jsonHeaders": "{\n  \"Content-Type\": \"application/json\"\n}\n",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('JSON', `query:\n\n\n\n\n\nUse the user’s prompt or a refined version to match dataset attributes (e.g., \"population density in Nairobi\" for density queries, \"population trends in Nairobi\" for time-series data).\n\n\n\nInclude specific terms like \"2050\" or \"maize farming\" to improve embedding relevance.\n\n\n\ntop_k:\n\n\n\n\n\nDefault to 5 for most queries.\n\n\n\nIncrease to 10–20 for broad queries (e.g., \"all urban centers in Kenya\") to capture more results.\n\n\n\nDecrease to 1–3 for specific queries (e.g., \"Nairobi population in 2050\") to focus on the most relevant result.\n\n\n\nurban_center:\n\n\n\n\n\nSet to the specific urban center mentioned (e.g., \"Nairobi\", \"Mombasa\").\n\n\n\nIf no specific urban center is mentioned, omit or set to null for broader queries.\n\n\n\ncountry:\n\n\n\n\n\nSet to \"KEN\" for Kenya-specific queries (default for this dataset).\n\n\n\nOmit if the prompt implies all countries or is ambiguous.\n\n\n\nanthrome:\n\n\n\n\n\nSet to specific land use types (e.g., \"Dense settlements\") if the prompt mentions urban areas, rural areas, or specific land use.\n\n\n\nOmit for non-land-use queries.\n\n\n\nfarm_sys:\n\n\n\n\n\nSet to specific farming systems (e.g., \"Maize mixed\") if the prompt mentions agriculture or farming.\n\n\n\nOmit for non-agricultural queries.\n\n\n\nanalyze_prompt:\n\n\n\n\n\nGenerate based on the task:\n\n\n\n\n\nCalculation: \"Calculate population density for 2050 using GeWGH60150 and AREAKM\".\n\n\n\nSummarization: \"Summarize population trends from 2020 to 2050 using GeWGH* attributes\".\n\n\n\nListing: \"List unique urban centers with maize mixed farming\".\n\n\n\nComparison: \"Compare population of Nairobi and Mombasa in 2040\".\n\n\n\nIf no specific task is implied, default to: \"Summarize the results based on the query\".`, 'json') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        -688,
+        208
+      ],
+      "id": "4b4e0f88-9c5e-4098-9425-6a5992752eaf",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.sessionId || $execution.id  || $workflow.id}}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -256,
+        288
+      ],
+      "id": "a578a57a-64f3-44af-8cf0-890d122c4490",
+      "name": "Simple Memory1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput || $json.message }}\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -832,
+        16
+      ],
+      "id": "b20db6f0-da28-4981-8860-576b61ab5626",
+      "name": "interprets user prompts",
+      "retryOnFail": true,
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "options": {
+          "numberOfItems": -1,
+          "separator": "\\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserItemList",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        240
+      ],
+      "id": "a4091df9-64c3-41ed-83d0-16d7aadd2806",
+      "name": "Item List Output Parser",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -448,
+        16
+      ],
+      "id": "e1d1411d-0160-45d2-998f-55cd84e7d5d4",
+      "name": "Urban Planner AI1"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -976,
+        224
+      ],
+      "id": "e8c2cc6f-48c4-4e0c-b690-a5dcb317974a",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "epm0oPOTiDmpInYu",
+          "name": "Google Gemini(PaLM) Api account 3"
+        }
+      },
+      "notes": "Role:\nYou are an AI assistant that interprets user prompts about urban, demographic, and geospatial data in Kenya.\nYou construct valid API requests to the NASA Kenya Urban Data API, fetch and process results, and return rich structured outputs designed for two downstream consumers:\n\nUrban Planner agent → needs structured geospatial + demographic info, calculated metrics, raw metadata.\n\n\n\n🔧 API Overview\n\nEndpoint:\nPOST /query\n\nRequired parameter:\n\nquery (string, refined natural language prompt)\n\nOptional filters:\n\nurban_center (case-sensitive city name, e.g., \"Nairobi\")\n\ncountry (always \"KEN\" for Kenya queries)\n\nanthrome (land use classification, e.g., \"Dense settlements\")\n\nfarm_sys (farming system, e.g., \"Maize mixed\")\n\ntop_k (1–5 for narrow queries, 10–20 for broader ones)\n\nanalyze_prompt (instructions for calculation, summarization, listing, comparison)\n\n(Sometimes: coast50km, borderland)\n\nOutput:\nJSON with results (documents + metadata).\n\n🧩 Updated Workflow\n1. Parse User Prompt\n\nExtract intent: population, density, land use, farming system, urban growth, geographic features.\n\nExtract entities: urban_center, country, year(s), anthrome, farm_sys.\n\nExtract keywords: for external web scraping, e.g., \"Nairobi urban growth 2050 population density\".\n\n2. Build API Request\n\nAlways set query = refined prompt.\n\nAdd filters (urban_center, country, anthrome, farm_sys).\n\nSet analyze_prompt depending on task:\n\nCalculation → \"Calculate population density for YEAR using GeWGH60<year> and AREAKM\".\n\nSummarization → \"Summarize population trends 2020–2050 using GeWGH* attributes\".\n\nListing → \"List unique urban centers with maize mixed farming\".\n\nComparison → \"Compare population of Nairobi and Mombasa in YEAR\".\n\nDefault → \"Summarize the results based on the query\".\n\n3. Process API Results\n\nExtract all available values: GeWGH*, AREAKM, anthrome, farm_sys, Coast50km, etc.\n\nPerform calculations:\n\nPopulation density = population ÷ area.\n\nGrowth rates if multiple years.\n\nPreserve raw metadata.\n\nDeduplicate duplicates from .gdb vs .gpkg.\n\nIf distance > 1.5 → issue a warning.\n\n4. Generate Detailed Output\n\n\n✅ Example Behavior\n\nUser:\n“What is the population density of Nairobi in 2050?”\n\nAPI Request:\n\n{\n  \"query\": \"Nairobi population density in 2050\",\n  \"urban_center\": \"Nairobi\",\n  \"country\": \"KEN\",\n  \"top_k\": 3,\n  \"analyze_prompt\": \"Calculate population density for 2050 using GeWGH60205 and AREAKM\"\n}\n\n\nOutput:\nThe JSON above with:\n\nurban_planner → metrics, density calc, raw metadata.\n\ndata_scraper → keywords + entities.\n\nwarnings if any."
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -448,
+        272
+      ],
+      "id": "57fd5bd6-e3aa-4bca-81d6-53cb608aede8",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "epm0oPOTiDmpInYu",
+          "name": "Google Gemini(PaLM) Api account 3"
+        }
+      },
+      "notes": "Role:\nYou are an Urban Planner AI. You receive structured JSON outputs from the NASA Kenya Urban Data Assistant containing geospatial, demographic, and land-use data for Kenyan urban centers.\nYour task is to analyze the data and produce a professional planning report tailored to user queries about urbanization, infrastructure, and industry setup.\n\nWorkflow\n\nInput: Structured JSON with:\n\nurban_planner section → metrics, land use, farming systems, coastal zone status, raw metadata.\n\ndata_scraper section → keywords and entities.\n\nwarnings.\n\nInterpretation:\n\nIdentify the location, years, and metrics (population, area, density, growth trends).\n\nUse land_use, farming_system, and coastal_zone to assess spatial constraints and opportunities.\n\nFactor in predicted changes (2020–2050) such as density growth, farming system stress, and land availability.\n\nNote warnings (e.g., low data relevance).\n\nReport Generation:\nCreate a structured urban planning report covering:\n\nExecutive Summary: Restate the user’s intent (e.g., \"Setting up an industry in Meru\").\n\nCurrent Baseline (2020): Population, area, density, land use, farming system.\n\nProjections (2030–2050): Growth rates, urban expansion, resource competition.\n\nSuitability Analysis: Evaluate the location for the proposed industry considering:\n\nLand availability & density pressures.\n\nClimate and heat projections (if relevant).\n\nFarming conflicts (e.g., maize farming vs. industrial land demand).\n\nProximity to coast, transport corridors, or borders.\n\nRecommendations:\n\nIdeal zones within/around the urban center.\n\nRequired infrastructure (roads, water, electricity, cooling/heating).\n\nPolicy & environmental compliance issues.\n\nRisks & Mitigation: Land competition, climate risks, demographic pressures.\n\nNext Steps: Further data or approvals required.\n\nOutput Format\n\nProduce a formal planning report in Markdown with sections:\n\n# Urbanization & Industry Placement Report – Meru\n\n## Executive Summary\n...\n\n## Current Baseline (2020)\n- Population: ...\n- Area: ...\n- Density: ...\n- Land use: ...\n- Farming system: ...\n\n## Projections (2030–2050)\n...\n\n## Suitability Analysis\n- Land availability: ...\n- Heat/Climate considerations: ...\n- Farming conflicts: ...\n- Infrastructure: ...\n\n## Recommendations\n...\n\n## Risks & Mitigation\n...\n\n## Next Steps\n...\n\n\n✅ Example Query:\nUser: “I want to set up a heavy manufacturing industry in Meru. Where should it be located, considering heat, land use, and projections over the next 50 years?”\n\nThe agent uses NASA data + calculations → generates the structured Urbanization & Industry Placement Report with location-specific insights."
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a Research Summarizer AI.\n\nInput: A detailed urban planning report (Markdown or text) containing analysis of population, land use, farming systems, urban growth, projections, and suitability recommendations.\n\nTask: Transform this report into a **structured JSON object** with three fields:\n\n1. \"summary\" → A short paragraph summarizing the purpose and main conclusion.\n2. \"key_insights\" → A list of the most important predictions, observations, or trends from the report.\n3. \"recommendations\" → A list of actionable advice, including suitability or risks.\n\nOutput **strictly** as valid JSON (no extra text).\n\nExample output:\n\n{\n  \"summary\": \"The study evaluates the feasibility of setting up a heavy industry in Meru. Population growth and land pressure are significant factors to consider over the next 50 years.\",\n  \"key_insights\": [\n    \"Population projected to increase from 300,000 in 2020 to 950,000 by 2050.\",\n    \"Urban density will triple, creating land pressure.\",\n    \"Maize-based farming may decline due to urban expansion.\",\n    \"Heat index may rise by 1.8°C by 2050, affecting cooling requirements.\"\n  ],\n  \"recommendations\": [\n    \"Locate industry near transport corridors to minimize logistics costs.\",\n    \"Avoid high-density central areas to prevent land conflicts.\",\n    \"Implement water recycling and heat management systems.\",\n    \"Ensure compliance with environmental regulations.\"\n  ]\n}\n\nNow process the following report and return JSON:\n\n{{ $json.output }}\n",
+              "role": "model"
+            },
+            {
+              "content": "Respond"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "4f27c561-c61d-45ef-b6d2-775222e447ec",
+      "name": "Message a model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "epm0oPOTiDmpInYu",
+          "name": "Google Gemini(PaLM) Api account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.sessionId || $execution.id \n|| $workflow.id}}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -832,
+        224
+      ],
+      "id": "eb25c5f1-806a-4a3a-887c-ea9f1e80eec7",
+      "name": "Simple Memory",
+      "disabled": true
+    }
+  ],
+  "pinData": {
+    "When chat message received": [
+      {
+        "json": {
+          "message": "I want to set up a steel manufacturing in Lekenya. Analyze data to get population, land and urban growth and based on that judge is the manufacturing plant is doable\n"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "interprets user prompts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "ai_tool": [
+        [
+          {
+            "node": "interprets user prompts",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "Urban Planner AI1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "interprets user prompts": {
+      "main": [
+        [
+          {
+            "node": "Urban Planner AI1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item List Output Parser": {
+      "ai_outputParser": [
+        []
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "interprets user prompts",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Urban Planner AI1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Urban Planner AI1": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "interprets user prompts",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "baaf6e19-9faf-45e1-9f01-f7e2991691c9",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0cfc3afd8dbca2e50aaebed12bd8d8962e8ce8ecc5d3590060916a5ddc517520"
+  },
+  "id": "PnSIB5GBvxmkrSiH",
+  "tags": []
+}
