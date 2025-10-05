@@ -1,11 +1,34 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import ChatInterface from "@/components/ChatInterface";
+import { Building2 } from "lucide-react";
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto px-4 py-12">
+        {/* Header */}
+        <header className="text-center mb-12 animate-fade-in">
+          <div className="inline-flex items-center justify-center gap-3 mb-4">
+            <div className="p-3 bg-[var(--gradient-primary)] rounded-xl shadow-[var(--shadow-card)]">
+              <Building2 className="w-8 h-8 text-white" />
+            </div>
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-3">
+            Urban Planning Insights
+          </h1>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            AI-powered feasibility and site selection analysis for urban development projects
+          </p>
+        </header>
+
+        {/* Main Content */}
+        <main>
+          <ChatInterface />
+        </main>
+
+        {/* Footer */}
+        <footer className="text-center mt-16 text-sm text-muted-foreground">
+          <p>Powered by advanced AI analysis for informed urban planning decisions</p>
+        </footer>
       </div>
     </div>
   );
