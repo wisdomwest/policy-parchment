@@ -1,73 +1,112 @@
-# Welcome to your Lovable project
+# 🏙️ BiB (BuildItBetter): AI-Driven Urban Planning Using NASA Earth Observation Data
 
-## Project info
+**Empowering sustainable city growth in Kenya through data-driven insights.**
 
-**URL**: https://lovable.dev/projects/59aabf9d-29e3-4977-976e-e4e54b3d5d2b
+## 🌍 Overview
 
-## How can I edit this code?
+**BuildItBetter (BiB)** is an AI-powered urban planning platform designed to assist planners and decision-makers in fast-growing Kenyan cities like **Lukenya**. By harnessing **NASA Earth observation data**, BiB delivers actionable insights that promote **human wellbeing**, **economic development**, and **environmental resilience** in the face of rapid urbanization and climate change.
 
-There are several ways of editing your application.
 
-**Use Lovable**
+## 🚀 What It Does
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/59aabf9d-29e3-4977-976e-e4e54b3d5d2b) and start prompting.
+BiB integrates **satellite-derived datasets** with AI analytics to generate real-time and predictive insights for sustainable urban development. Key features include:
 
-Changes made via Lovable will be committed automatically to this repo.
+* **Land-use zoning predictions**
+* **Infrastructure optimization** (e.g., road network planning)
+* **Critical facility siting** (e.g., waste management centers)
+* **Public health corridors** to reduce exposure to pollutants
+* **Urban sprawl mitigation** through hotspot modeling
+* **Climate vulnerability forecasting** (floods, droughts, heatwaves)
+* **Agricultural intensification strategies** in suitable zones
+* **Low-impact land-use recommendations** (e.g., aquaculture)
 
-**Use your preferred IDE**
+These insights are served through **FastAPI endpoints**, orchestrated via **n8n workflows**, and powered by **AI agents** accessing a **Chroma vector database** of spatial-temporal datasets.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+---
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🛰️ Data Sources
 
-Follow these steps:
+BiB leverages multiple NASA Earth observation missions:
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+| Dataset                      | NASA Mission   | Use Case                                 |
+| ---------------------------- | -------------- | ---------------------------------------- |
+| **Land Use / Land Cover**    | Landsat        | Urban expansion tracking                 |
+| **Air Quality**              | MODIS, TROPOMI | Pollution and health corridor planning   |
+| **Vegetation Health (NDVI)** | MODIS, Landsat | Green space and food security assessment |
+| **Water Resources**          | GRACE          | Monitoring water availability            |
+| **Urban Heat Island**        | ASTER          | Urban climate stress forecasting         |
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
 
-# Step 3: Install the necessary dependencies.
-npm i
+## 🌆 Why It Matters
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+Kenya’s urban population is projected to exceed **50% by 2050**, intensifying pressure on:
 
-**Edit a file directly in GitHub**
+* **Ecosystems**
+* **Infrastructure**
+* **Public health**
+* **Natural resources**
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Traditional planning methods are often **reactive**, leading to:
 
-**Use GitHub Codespaces**
+* Environmental degradation
+* Social inequities
+* Poor infrastructure integration
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+BiB transforms this paradigm by providing **proactive**, **data-driven**, and **inclusive planning tools** that help cities grow **equitably** and **resiliently**, in alignment with:
 
-## What technologies are used for this project?
+* **SDG 11**: Sustainable Cities and Communities
+* **SDG 3**: Good Health and Wellbeing
+* **SDG 13**: Climate Action
 
-This project is built with:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 🛠️ Architecture & Technology Stack
 
-## How can I deploy this project?
+* **Data Storage**: [ChromaDB](https://www.trychroma.com/) – for fast, vector-based spatial querying
+* **Backend**: [FastAPI](https://fastapi.tiangolo.com/) – for serving insights via API endpoints
+* **Workflow Automation**: [n8n](https://n8n.io/) – for orchestrating AI agent tasks
+* **AI Agents**: Custom models analyzing spatial, temporal, and environmental trends
+* **Presentation Layer**: Interactive web dashboard + supplementary video case studies
 
-Simply open [Lovable](https://lovable.dev/projects/59aabf9d-29e3-4977-976e-e4e54b3d5d2b) and click on Share -> Publish.
 
-## Can I connect a custom domain to my Lovable project?
+## 📽️ Project Presentation & Use Case
 
-Yes, you can!
+The project will be presented via:
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+* A **web-based interactive dashboard**
+* A **video demo** exploring real-world applications, such as:
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+  * Evaluating the **feasibility of a steel manufacturing plant** in Lukenya
+  * Assessing its **impact on land use, population density, and agriculture zones**
+  * Balancing economic growth with **environmental and public health trade-offs**
+
+
+## ✅ Use Cases
+
+* **Urban Planners**: Optimize zoning, infrastructure, and housing development
+* **Policy Makers**: Develop equitable and sustainable growth strategies
+* **Environmental Agencies**: Monitor ecological impacts of urban sprawl
+* **Investors**: Make data-driven decisions on industrial site locations
+
+
+## 📦 Installation & Deployment
+
+*Coming soon.*
+The platform will be deployed as a cloud-based solution, accessible through authenticated endpoints. A Docker-based deployment guide and dataset ingestion pipeline will be included in the next release.
+
+
+## 🧩 Future Enhancements
+
+* Mobile-accessible planning assistant
+* Integration with local data sources (e.g., census, municipal GIS)
+* Scenario simulation interface for multi-stakeholder collaboration
+* Real-time alerts on emerging environmental risks
+
+
+## 🤝 Acknowledgments
+
+This project is made possible by:
+
+* **NASA Earth Science Division**
+* **Open-source contributions** from the AI, geospatial, and urban planning communities
+
+> *BiB helps build cities not just for today, but for the future—smarter, greener, and fairer.*
