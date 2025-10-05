@@ -71,6 +71,7 @@ BiB transforms this paradigm by providing **proactive**, **data-driven**, and **
 ## 📽️ Project Presentation & Use Case
 
 The project will be presented via:
+Youtube Video - https://www.youtube.com/watch?v=Vk2tWF_AwDQ
 
 * A **web-based interactive dashboard**
 * A **video demo** exploring real-world applications, such as:
