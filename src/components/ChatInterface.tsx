@@ -79,7 +79,7 @@ const ChatInterface = () => {
         <Button 
           type="submit" 
           disabled={isLoading}
-          className="w-full sm:w-auto bg-[var(--gradient-primary)] hover:opacity-90 transition-[var(--transition-smooth)] shadow-[var(--shadow-card)]"
+          className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground shadow-md hover:shadow-lg transition-all"
         >
           {isLoading ? (
             "Processing..."
