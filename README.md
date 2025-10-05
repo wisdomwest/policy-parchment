@@ -28,14 +28,11 @@ These insights are served through **FastAPI endpoints**, orchestrated via **n8n 
 
 BiB leverages multiple NASA Earth observation missions:
 
-| Dataset                      | NASA Mission   | Use Case                                 |
-| ---------------------------- | -------------- | ---------------------------------------- |
-| **Land Use / Land Cover**    | Landsat        | Urban expansion tracking                 |
-| **Air Quality**              | MODIS, TROPOMI | Pollution and health corridor planning   |
-| **Vegetation Health (NDVI)** | MODIS, Landsat | Green space and food security assessment |
-| **Water Resources**          | GRACE          | Monitoring water availability            |
-| **Urban Heat Island**        | ASTER          | Urban climate stress forecasting         |
-
+| Dataset                      
+| ---------------------------- 
+| **Land Use / Land Cover**    
+| **Population**             
+| **Data on Urban center** 
 
 ## 🌆 Why It Matters
 
@@ -66,6 +63,8 @@ BiB transforms this paradigm by providing **proactive**, **data-driven**, and **
 * **Workflow Automation**: [n8n](https://n8n.io/) – for orchestrating AI agent tasks
 * **AI Agents**: Custom models analyzing spatial, temporal, and environmental trends
 * **Presentation Layer**: Interactive web dashboard + supplementary video case studies
+
+## Notebook and n8n workflow files can be accessed from the codebase
 
 
 ## 📽️ Project Presentation & Use Case
